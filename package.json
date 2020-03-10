@@ -1,0 +1,36 @@
+{
+  "name": "alyasu-backend",
+  "version": "1.0.0",
+  "description": "Backend for blogs and other stff",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/srknzl/alyasu-backend.git"
+  },
+  "author": "Serkan Özel",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/srknzl/alyasu-backend/issues"
+  },
+  "homepage": "https://github.com/srknzl/alyasu-backend#readme",
+  "keywords": [
+    "blog",
+    "nodejs",
+    "nosql",
+    "mongodb"
+  ],
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "connect-history-api-fallback": "^1.6.0",
+    "express": "^4.17.1",
+    "helmet": "^3.21.3",
+    "mongodb": "^3.5.4",
+    "mongoose": "^5.9.4"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.2"
+  }
+}
