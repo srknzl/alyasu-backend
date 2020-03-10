@@ -17,7 +17,7 @@ if (process.env.NODE_ENV === "production") {
 } else {
   MONGODB_URI = require("./credentials/mongo_uri").MONGODB_URI;
 }
-console
+console;
 if (process.env.NODE_ENV === "production") {
   app.use((req, res, next) => {
     res.setHeader(
@@ -54,6 +54,13 @@ if (port == null || port == "") {
   port = 3000;
 }
 
+const errorHandler = (err, req, res, next) => {
+  if (!err.statusCode) err.statusCode = 500;
+  res.status(err.statusCode).json({
+    message: err.message,
+    error: err
+  });
+};
 mongoose.connect(
   MONGODB_URI,
   {
