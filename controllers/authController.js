@@ -16,7 +16,6 @@ if (process.env.NODE_ENV === "production" && process.env.SENDGRID_API) {
 export const postNewPassword = async (req, res, next) => {
   const token = req.params.token;
   const newPassword = req.body.newPassword;
-  const newPasswordAgain = req.body.newPasswordAgain;
 
   const valErrors = validationResult(req);
   if (!valErrors.isEmpty()) {
