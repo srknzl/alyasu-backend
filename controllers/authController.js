@@ -7,7 +7,7 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/user");
 
 
-if (process.env.NODE_ENV === "production" && process.env.SENDGRID_API) {
+if (process.env.NODE_ENV === "production") {
   sendgridMail.setApiKey(process.env.SENDGRID_API);
 } else {
   sendgridMail.setApiKey(require("../credentials/sendgrid").apiKey);
