@@ -36,7 +36,8 @@ exports.addBlogEntry = async (req, res, next) => {
     });
     await blogEntry.save();
     res.status(201).json({
-      message: "Oluşturuldu"
+      message: "Oluşturuldu",
+      _id: blogEntry._id
     });
   } catch (error) {
     console.log(error);
@@ -46,15 +47,15 @@ exports.addBlogEntry = async (req, res, next) => {
 };
 exports.removeBlogEntry = async (req, res, next) => {
   try {
-    const blogEntry = await BlogEntry.findById(req.body.id);
+    const blogEntry = await BlogEntry.findById(req.params.id);
     if (blogEntry) {
       await blogEntry.remove();
       res.status(200).json({
-        message: "Silindi"
+        message: "Silindi."
       });
     } else {
       res.status(404).json({
-        message: "Öyle bir blog bulunamadı"
+        message: "Öyle bir blog bulunamadı."
       });
     }
   } catch (error) {
@@ -65,7 +66,7 @@ exports.removeBlogEntry = async (req, res, next) => {
 };
 exports.editBlogEntry = async (req, res, next) => {
   try {
-    const blogEntry = await BlogEntry.findByIdAndUpdate(req.body.id, {
+    const blogEntry = await BlogEntry.findByIdAndUpdate(req.params.id, {
       title: req.body.title,
       content: req.body.content,
       coverImageUrl: req.body.coverImageUrl,

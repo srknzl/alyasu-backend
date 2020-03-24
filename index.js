@@ -9,7 +9,9 @@ const blogRouter = require("./routes/blog");
 const authRouter = require("./routes/auth");
 
 const app = express();
-app.use(bodyParser.json());
+app.use(bodyParser.json({
+  limit: "1gb" // Basically no limit
+}));
 app.use(helmet());
 app.use("/blog", blogRouter);
 app.use("/auth", authRouter);
@@ -71,7 +73,8 @@ mongoose.connect(
   MONGODB_URI,
   {
     useNewUrlParser: true,
-    useUnifiedTopology: true
+    useUnifiedTopology: true,
+    // useFindAndModify: false 
   },
   async err => {
     if (err) console.error(err);

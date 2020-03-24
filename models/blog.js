@@ -9,7 +9,7 @@ const blogEntrySchema = new Schema({
   },
   content: {
     type: String,
-    required: true
+    required: false
   },
   coverImageUrl: {
     type: String,
@@ -17,7 +17,7 @@ const blogEntrySchema = new Schema({
   },
   keywords: {
     type: [String],
-    required: true
+    required: false
   }
 });
 

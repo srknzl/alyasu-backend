@@ -12,10 +12,12 @@ router.post(
 );
 
 router.put(
-  "/editBlogEntry",
-  isAuth,
+  "/editBlogEntry/:id",
+  // isAuth,
   blogController.editBlogEntry
 );
 
-router.delete("/product/delete/:prodId", isAuth, blogController.removeBlogEntry);
+router.delete("/deleteBlogEntry/:id",
+  //  isAuth,
+  blogController.removeBlogEntry);
 module.exports = router;
