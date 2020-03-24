@@ -32,7 +32,8 @@
     "helmet": "^3.21.3",
     "jsonwebtoken": "^8.5.1",
     "mongodb": "^3.5.4",
-    "mongoose": "^5.9.4"
+    "mongoose": "^5.9.4",
+    "minimist": ">=1.2.2"
   },
   "devDependencies": {
     "nodemon": "^2.0.2"
