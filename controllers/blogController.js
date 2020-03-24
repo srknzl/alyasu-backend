@@ -1,6 +1,6 @@
 const BlogEntry = require("../models/blog");
 
-export const getBlogEntries = async (req, res, next) => {
+exports.getBlogEntries = async (req, res, next) => {
   try {
     const blogEntries = await BlogEntry.find();
     res
@@ -12,11 +12,11 @@ export const getBlogEntries = async (req, res, next) => {
     next(error);
   }
 };
-export const getBlogEntryById = async (req, res, next) => {
+exports.getBlogEntryById = async (req, res, next) => {
   try {
-    const blogEntry = await BlogEntry.findById(req.body.id);
+    const blogEntry = await BlogEntry.findById(req.params.id);
     if (blogEntry) {
-      res.status(200).json({ message: "Buyrun", blogEntry: doc });
+      res.status(200).json({ message: "Buyrun", blogEntry: blogEntry });
     } else {
       res.status(404).json({ message: "Öyle bir blog bulunamadı." });
     }
@@ -26,7 +26,7 @@ export const getBlogEntryById = async (req, res, next) => {
     next(error);
   }
 };
-export const addBlogEntry = async (req, res, next) => {
+exports.addBlogEntry = async (req, res, next) => {
   try {
     const blogEntry = new BlogEntry({
       title: req.body.title,
@@ -44,7 +44,7 @@ export const addBlogEntry = async (req, res, next) => {
     next(error);
   }
 };
-export const removeBlogEntry = async (req, res, next) => {
+exports.removeBlogEntry = async (req, res, next) => {
   try {
     const blogEntry = await BlogEntry.findById(req.body.id);
     if (blogEntry) {
@@ -63,7 +63,7 @@ export const removeBlogEntry = async (req, res, next) => {
     next(error);
   }
 };
-export const editBlogEntry = async (req, res, next) => {
+exports.editBlogEntry = async (req, res, next) => {
   try {
     const blogEntry = await BlogEntry.findByIdAndUpdate(req.body.id, {
       title: req.body.title,

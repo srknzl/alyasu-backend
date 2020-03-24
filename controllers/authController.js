@@ -4,7 +4,7 @@ const crypto = require("crypto");
 const sendgridMail = require("@sendgrid/mail");
 const jwt = require("jsonwebtoken");
 
-import User from "../models/user";
+const User = require("../models/user");
 
 
 if (process.env.NODE_ENV === "production" && process.env.SENDGRID_API) {
@@ -13,7 +13,7 @@ if (process.env.NODE_ENV === "production" && process.env.SENDGRID_API) {
   sendgridMail.setApiKey(require("../credentials/sendgrid").apiKey);
 }
 
-export const postNewPassword = async (req, res, next) => {
+exports.postNewPassword = async (req, res, next) => {
   const token = req.params.token;
   const newPassword = req.body.newPassword;
 
@@ -42,7 +42,7 @@ export const postNewPassword = async (req, res, next) => {
     error.message = "Kullanıcı bulunamadı!";
     next(error);
   }
-  
+
 
   if (!user) {
     return res.status(401).json({ message: "Your token is not valid" });
@@ -52,7 +52,7 @@ export const postNewPassword = async (req, res, next) => {
     });
   }
 };
-export const postLogin = async (req, res, next) => {
+exports.postLogin = async (req, res, next) => {
   const password = req.body.password;
   const email = req.body.email;
   const valErrors = validationResult(req);
@@ -123,7 +123,7 @@ export const postLogin = async (req, res, next) => {
   }
 
 };
-export const postSignup = async (req, res, next) => {
+exports.postSignup = async (req, res, next) => {
   const email = req.body.email;
   const password = req.body.password;
   const name = req.body.name;
@@ -174,7 +174,7 @@ export const postSignup = async (req, res, next) => {
 };
 
 
-export const postLogout = (req, res, next) => {
+exports.postLogout = (req, res, next) => {
   const token = req.cookies["token"];
   let secure = false;
   let sameSite = false;
@@ -201,7 +201,7 @@ export const postLogout = (req, res, next) => {
   res.status(204).json(null);
 };
 
-export const postReset = async (req, res, next) => {
+exports.postReset = async (req, res, next) => {
   const email = req.body.email;
   const valErrors = validationResult(req);
 
@@ -261,7 +261,7 @@ export const postReset = async (req, res, next) => {
   });
 };
 
-export const postCheckLogin = (req, res, next) => {
+exports.postCheckLogin = (req, res, next) => {
   const token = req.cookies["token"];
   try {
     const decoded = jwt.verify(token, "somesupersecretsecret");

@@ -6,13 +6,13 @@ router.get("/blogEntries", blogController.getBlogEntries);
 router.get("/blogEntries/:id", blogController.getBlogEntryById);
 
 router.post(
-  "/add-blogEntry",
-  isAuth,
+  "/addBlogEntry",
+  // isAuth,
   blogController.addBlogEntry
 );
 
 router.put(
-  "/edit-blogEntry",
+  "/editBlogEntry",
   isAuth,
   blogController.editBlogEntry
 );

@@ -1,20 +1,20 @@
-export const router = require("express").Router();
+const router = require("express").Router();
 const body = require("express-validator").body;
 const authController = require("../controllers/authController")
 
 router.post('/newPassword/:token',
-[
-  body("password").isLength({
-    min: 8
-  }).withMessage('Şifreniz en az sekiz karakter olsun.'),
-  body("confirmPassword").custom((value, { req }) => {
-    if (req.body.password !== value) {
-      throw new Error("Şifreler aynı değil.");
-    }
-    return true;
-  })
-],
-authController.postNewPassword);
+  [
+    body("password").isLength({
+      min: 8
+    }).withMessage('Şifreniz en az sekiz karakter olsun.'),
+    body("confirmPassword").custom((value, { req }) => {
+      if (req.body.password !== value) {
+        throw new Error("Şifreler aynı değil.");
+      }
+      return true;
+    })
+  ],
+  authController.postNewPassword);
 
 router.post("/logout", authController.postLogout);
 router.post("/checklogin", authController.postCheckLogin);
@@ -57,4 +57,4 @@ router.post("/reset",
     body('email').isEmail().withMessage('Emailinizi düzgün giriniz.')
   ], authController.postReset);
 
-export default router;
+module.exports = router;

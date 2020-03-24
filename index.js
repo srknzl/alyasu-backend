@@ -3,12 +3,18 @@ const helmet = require("helmet");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const history = require("connect-history-api-fallback");
+const path = require("path");
+
+const blogRouter = require("./routes/blog");
+const authRouter = require("./routes/auth");
 
 const app = express();
-app.use(express.static("dist"));
 app.use(bodyParser.json());
-app.use(history());
 app.use(helmet());
+app.use("/blog", blogRouter);
+app.use("/auth", authRouter);
+app.use(history());
+app.use(express.static(path.join(__dirname, 'dist')));
 
 let MONGODB_URI;
 
