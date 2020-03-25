@@ -15,7 +15,7 @@ if (process.env.NODE_ENV === "production") {
 
 exports.postNewPassword = async (req, res, next) => {
   const token = req.body.token;
-  const newPassword = req.body.newPassword;
+  const password = req.body.password;
 
   const valErrors = validationResult(req);
   if (!valErrors.isEmpty()) {
@@ -27,9 +27,10 @@ exports.postNewPassword = async (req, res, next) => {
     err.problems = valErrors.array();
     return next(err);
   }
-
+  let user;
+  const newPassword = await bcrypt.hash(password, 12);
   try {
-    const user = await User.findOneAndUpdate({
+    user = await User.findOneAndUpdate({
       resetToken: token,
       resetTokenExpiry: {
         $gt: Date.now()

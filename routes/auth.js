@@ -7,7 +7,7 @@ router.post('/yeniSifre/',
     body("password").isLength({
       min: 8
     }).withMessage('Şifreniz en az sekiz karakter olsun.'),
-    body("confirmPassword").custom((value, { req }) => {
+    body("passwordAgain").custom((value, { req }) => {
       if (req.body.password !== value) {
         throw new Error("Şifreler aynı değil.");
       }
