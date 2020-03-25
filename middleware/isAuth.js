@@ -1,10 +1,14 @@
 const jwt = require("jsonwebtoken");
 
 module.exports = (req, res, next) => {
-  const token = req.cookies["token"];
+  const token = req.cookies && req.cookies["token"];
   try {
-    const decoded = jwt.verify(token, "somesupersecretsecret");
-    req.userId = decoded.userid;
+    if (!token) {
+      const err = new Error("Token not found!");
+      err.statusCode = 404;
+      return next(err);
+    }
+    jwt.verify(token, "SECRETFINDINGISNOTHARDHORSECARBOTTLETEASPOONMOUSELAPPOTASDDASA");
     next();
   } catch (error) {
     error.statusCode = 401;

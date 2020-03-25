@@ -1,4 +1,4 @@
-// const bcyrpt = require("bcrypt");
+const bcrypt = require("bcrypt");
 const validationResult = require("express-validator").validationResult;
 const crypto = require("crypto");
 const sendgridMail = require("@sendgrid/mail");
@@ -14,7 +14,7 @@ if (process.env.NODE_ENV === "production") {
 }
 
 exports.postNewPassword = async (req, res, next) => {
-  const token = req.params.token;
+  const token = req.body.token;
   const newPassword = req.body.newPassword;
 
   const valErrors = validationResult(req);
@@ -80,7 +80,7 @@ exports.postLogin = async (req, res, next) => {
   if (user) {
     let match;
     try {
-      match = await compare(password, user.password);
+      match = await bcrypt.compare(password, user.password);
     } catch (error) {
       return next(error);
     }
@@ -92,7 +92,7 @@ exports.postLogin = async (req, res, next) => {
     const token = jwt.sign({
       email: email,
       userid: user._id.toString()
-    }, "somesupersecretsecret", {
+    }, "SECRETFINDINGISNOTHARDHORSECARBOTTLETEASPOONMOUSELAPPOTASDDASA", {
       expiresIn: "1h"
     });
     const decoded = jwt.decode(token);
@@ -126,7 +126,6 @@ exports.postLogin = async (req, res, next) => {
 exports.postSignup = async (req, res, next) => {
   const email = req.body.email;
   const password = req.body.password;
-  const name = req.body.name;
 
   const valErrors = validationResult(req);
 
@@ -150,15 +149,11 @@ exports.postSignup = async (req, res, next) => {
     return next(err);
   }
 
-  const hashPass = await hash(password, 12);
+  const hashPass = await bcrypt.hash(password, 12);
 
   const user = new User({
     password: hashPass,
-    name: name,
     email: email,
-    cart: {
-      items: []
-    }
   });
   try {
     await user.save();
@@ -246,7 +241,7 @@ exports.postReset = async (req, res, next) => {
       html: `
       <h3>Şifre reset linki</h3>
       <hr>
-      <p> Şifre resetleme linkin :) <a href="https://alyasugelisimakademisi.com/newPassword/${hex}">link</a>.  </p>
+      <p> Şifre resetleme linkin annecim.  <a href="https://alyasugelisimakademisi.com/yeniSifre/${hex}">tıklayınız.</a>.  </p>
     `
     };
     sendgridMail.send(msg);
@@ -262,11 +257,18 @@ exports.postReset = async (req, res, next) => {
 };
 
 exports.postCheckLogin = (req, res, next) => {
-  const token = req.cookies["token"];
+  const token = req.cookies && req.cookies["token"];
   try {
-    const decoded = jwt.verify(token, "somesupersecretsecret");
+    if (!token) {
+      const err = new Error("Token not found!");
+      err.statusCode = 404;
+      return next(err);
+    }
+    const decoded = jwt.verify(token, "SECRETFINDINGISNOTHARDHORSECARBOTTLETEASPOONMOUSELAPPOTASDDASA");
     res.status(200).json(decoded);
   } catch (error) {
+    error.statusCode = 401;
+    error.message = "Not logged in";
     next(error);
   }
 }

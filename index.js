@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const history = require("connect-history-api-fallback");
 const path = require("path");
+const cookieParser = require("cookie-parser");
 
 const blogRouter = require("./routes/blog");
 const authRouter = require("./routes/auth");
@@ -12,6 +13,7 @@ const app = express();
 app.use(bodyParser.json({
   limit: "1gb" // Basically no limit
 }));
+app.use(cookieParser());
 app.use(helmet());
 app.use("/blog", blogRouter);
 app.use("/auth", authRouter);
@@ -69,6 +71,7 @@ const errorHandler = (err, req, res, next) => {
     error: err
   });
 };
+app.use(errorHandler);
 mongoose.connect(
   MONGODB_URI,
   {

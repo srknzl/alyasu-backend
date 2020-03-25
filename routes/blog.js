@@ -7,17 +7,17 @@ router.get("/blogEntries/:id", blogController.getBlogEntryById);
 
 router.post(
   "/addBlogEntry",
-  // isAuth,
+  isAuth,
   blogController.addBlogEntry
 );
 
 router.put(
   "/editBlogEntry/:id",
-  // isAuth,
+  isAuth,
   blogController.editBlogEntry
 );
 
 router.delete("/deleteBlogEntry/:id",
-  //  isAuth,
+   isAuth,
   blogController.removeBlogEntry);
 module.exports = router;

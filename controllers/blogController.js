@@ -21,8 +21,12 @@ exports.getBlogEntryById = async (req, res, next) => {
       res.status(404).json({ message: "Öyle bir blog bulunamadı." });
     }
   } catch (error) {
-    console.log(error);
-    error.message = "Blog bilinmeyen sebeple alınamadı";
+    if (error.name == 'CastError') {
+      error.statusCode = 404;
+      error.message = "Yanlış id";
+    } else {
+      error.message = "Blog bilinmeyen sebeple alınamadı";
+    }
     next(error);
   }
 };
