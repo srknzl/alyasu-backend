@@ -13,6 +13,19 @@ const app = express();
 app.use(bodyParser.json({
   limit: "1gb" // Basically no limit
 }));
+app.use((req, res, next) => {
+  res.setHeader(
+    "Access-Control-Allow-Origin",
+    "http://localhost:8080"
+  );
+  res.setHeader("Access-Control-Allow-Methods", "*");
+  res.setHeader("Access-Control-Allow-Credentials", "true");
+  res.setHeader(
+    "Access-Control-Allow-Headers",
+    "Content-Type,Cookie,Set-Cookie"
+  );
+  next();
+});
 app.use(cookieParser());
 app.use(helmet());
 app.use("/blog", blogRouter);
@@ -27,36 +40,8 @@ if (process.env.NODE_ENV === "production") {
 } else {
   MONGODB_URI = require("./credentials/mongo_uri").MONGODB_URI;
 }
-console;
-if (process.env.NODE_ENV === "production") {
-  app.use((req, res, next) => {
-    res.setHeader(
-      "Access-Control-Allow-Origin",
-      "https://www.alyasugelisimakademisi.com"
-    );
-    res.setHeader("Access-Control-Allow-Methods", "*");
-    res.setHeader("Access-Control-Allow-Credentials", "true");
-    res.setHeader(
-      "Access-Control-Allow-Headers",
-      "Content-Type,Cookie,Set-Cookie"
-    );
-    next();
-  });
-} else {
-  app.use((req, res, next) => {
-    res.setHeader(
-      "Access-Control-Allow-Origin",
-      "http://localhost:8080, http://localhost:3000"
-    );
-    res.setHeader("Access-Control-Allow-Methods", "*");
-    res.setHeader("Access-Control-Allow-Credentials", "true");
-    res.setHeader(
-      "Access-Control-Allow-Headers",
-      "Content-Type,Cookie,Set-Cookie"
-    );
-    next();
-  });
-}
+
+
 
 let port = process.env.PORT;
 
